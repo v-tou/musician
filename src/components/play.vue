@@ -1,6 +1,8 @@
 <template>
 <!-- 播放的大头 -->
+  <!-- 当歌曲列表不为空时显示player播放器界面 -->
   <div class="player" v-show="playList.length>0">
+    <!-- 正常大小的播放器界面 transition里写需要被动画控制的元素-->
     <transition
       name="normal"
       @enter="enter"
@@ -8,10 +10,13 @@
       @leave="leave"
       @after-leave="afterLeave"
     >
+      <!-- 充满屏幕时显示正常播放器 -->
       <div class="normal-player" v-show="fullScreen">
+        <!-- 背景透明大图 -->
         <div class="background">
           <img width="100%" height="100%" :src="(currentSong.al && currentSong.al.picUrl) || (currentSong.artists && currentSong.artists[0].img1v1Url)">
         </div>
+        <!-- 顶部 包括返回图标歌名 歌手名 -->
         <div class="top">
           <div class="back" @click="back">
             <i class="icon">&#xe8e2;</i>
@@ -19,12 +24,14 @@
           <h1 class="title" v-html="currentSong.name"></h1>
           <h2 class="subtitle" v-html="(currentSong.ar && currentSong.ar[0].name) || (currentSong.artists && currentSong.artists[0].name)"></h2>
         </div>
+        <!-- 中间  -->
         <div
           class="middle"
-          @touchstart.prevent="middleTouchStart"
-          @touchmove.prevent="middleTouchMove"
+          @touchstart="middleTouchStart"
+          @touchmove="middleTouchMove"
           @touchend="middleTouchEnd"
         >
+          <!-- 图片界面 包括图片专辑和滚动的小歌词-->
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" ref="imageWrapper">
@@ -40,6 +47,7 @@
               <div class="playing-lyric">{{playingLyric}}</div>
             </div>
           </div>
+          <!-- 歌词界面 -->
           <v-scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
@@ -502,6 +510,7 @@ export default {
       'savePlayHistory'
     ])
   },
+  /* 监测变动 */
   watch: {
     async currentSong(newSong, oldSong) {
       if (!newSong.id || newSong.id === oldSong.id) {
