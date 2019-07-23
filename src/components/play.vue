@@ -31,7 +31,7 @@
           @touchmove="middleTouchMove"
           @touchend="middleTouchEnd"
         >
-          <!-- 图片界面 包括图片专辑和滚动的小歌词-->
+          <!-- 图片界面 包括图片专辑和滚动的小歌词 ref用于获取dom元素-->
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" ref="imageWrapper">
@@ -43,6 +43,7 @@
                 >
               </div>
             </div>
+            <!-- 获取高亮歌词 -->
             <div class="playing-lyric-wrapper">
               <div class="playing-lyric">{{playingLyric}}</div>
             </div>
@@ -65,11 +66,14 @@
             </div>
           </v-scroll>
         </div>
+        <!-- 底部 -->
         <div class="bottom">
+          <!-- 两个点 -->
           <div class="dot-wrapper">
             <span class="dot" :class="{'active':currentShow==='cd'}"></span>
             <span class="dot" :class="{'active':currentShow==='lyric'}"></span>
           </div>
+          <!-- 进度条 -->
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
@@ -79,27 +83,33 @@
                 @percentChange="onProgressBarChange"
                 @percentChanging="onProgressBarChanging"
               ></v-progress-bar> -->
+              <!-- 引入v-progress-curve组件 -->
               <v-progress-curve :percent="percent" />
             </div>
             <span class="time time-r">{{format(duration)}}</span>
           </div>
           <div class="operators-box">
             <div class="operators">
+              <!-- 循环播放键 -->
               <div class="icon-box i-left" @click="changeMode">
                 <i class="icon" style="font-size: 20px">&#xe819;</i>
               </div>
+              <!-- 上一首 -->
               <div class="icon-box i-left" :class="disableCls">
                 <i @click="prev" class="icon">&#xe61e;</i>
               </div>
+              <!-- 播放键 -->
               <div class="icon-box i-center" :class="disableCls">
                 <div>
                   <i class="icon" v-if="playing" @click="togglePlaying">&#xe644;</i>
                   <i class="icon icon-pause" v-else @click="togglePlaying">&#xe630;</i>
                 </div>
               </div>
+              <!-- 下一首 -->
               <div class="icon-box i-right" :class="disableCls">
                 <i @click="next" class="icon">&#xe604;</i>
               </div>
+              <!-- 播放列表 -->
               <div class="icon-box i-right" @click="showPlaylist">
                 <i class="icon" style="font-size: 28px">&#xe927;</i>
                 <!-- <i @click="toggleFavorite(currentSong)" class="icon" :class="favoriteIcon"></i> -->
@@ -109,10 +119,13 @@
         </div>
       </div>
     </transition>
+    <!-- 小播放器 -->
     <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
+        <!-- 小图 -->
         <div class="picture">
           <div class="imgWrapper" ref="miniWrapper">
+            <!-- 图片懒加载 先只加载页面上看到的图片 -->
             <img
               ref="miniImage"
               :class="cdCls"
@@ -138,11 +151,13 @@
         <div class="control" @click.stop="showPlaylist">
           <i class="icon">&#xe927;</i>
         </div>
+        <!-- 进度条 -->
         <div class="bottom-progress-bar">
           <div class="bottom-progress" :style="{width: (currentTime / duration).toFixed(3)*100 + '%'}"></div>
         </div>
       </div>
     </transition>
+    <!-- playlist组件 -->
     <v-playlist ref="playList"></v-playlist>
     <audio
       ref="audio"
@@ -155,7 +170,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script type="text/ecmascript-6">   /* 让编辑器识别es6语法 */
 import Lyric from 'lyric-parser'
 import animations from 'create-keyframe-animation'
 import scroll from '@/components/scroll'
@@ -164,7 +179,7 @@ import progressCircle from '@/components/progressCircle'
 import progressCurve from '@/components/progressCurve'
 // import { playMode } from 'common/js/config'
 import { playerMixin } from '@/common/js/mixin'
-import { prefixStyle } from '@/common/js/dom'
+import { prefixStyle } from '@/common/js/dom'   /* 为了浏览器兼容，自动加前缀 */
 import api from '@/api'
 import playList from '@/components/playList'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -172,6 +187,8 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 
+
+//获取的格式用例[00:05.64]
 const timeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g
 
 export default {
@@ -189,22 +206,25 @@ export default {
       songReady: false,
       currentTime: 0,
       duration: 0,
-      radius: 32,
+      //radius: 32,
       currentLyric: null,
       currentLineNum: 0,
       currentShow: 'cd',
-      playingLyric: '',
+      playingLyric: '',   //高亮歌词
       isPureMusic: false,
       pureMusicLyric: ''
     }
   },
   computed: {
+    //设置图片的class值 播放时设置为play 给play设置成360°旋转
     cdCls() {
-      return this.playing ? 'play' : ''
+      return this.playing ? 'play' : ''    //playing值默认为false 在music.js中定义
     },
+    //设置左中右播放键的class值
     disableCls() {
-      return this.songReady ? '' : 'disable'
+      return this.songReady ? '' : 'disable'   //songReady默认为false
     },
+    //时间百分比
     percent() {
       return this.currentTime / this.duration
     },
@@ -214,6 +234,7 @@ export default {
       'playing'
     ])
   },
+  //创建一个空对象 持续添加方法
   created() {
     this.touch = {}
   },
