@@ -1,4 +1,4 @@
+//定义sass函数 实现px到rem的转换
 @function px2rem($px, $base-font-size: 75px) {
   @return ($px / $base-font-size) * 1rem;
 }
-/* 哈哈哈我就试一下 */
