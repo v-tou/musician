@@ -16,8 +16,10 @@ export default {
   components: {
     // Loading,
   },
+  //props验证数据类型 类型错误会发出警告
   props: {
     /**
+      * probeType三个可选值
       * 1 滚动的时候会派发scroll事件，会节流。
       * 2 滚动的时候实时派发scroll事件，不会节流。
       * 3 除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
