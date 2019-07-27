@@ -28,6 +28,7 @@ const actions = {
   },
   //选择音乐播放
   selectPlaySong({ commit, state }, song) {
+    //从playList中取出数据
     let playlist = state.playList.slice()
     let currentIndex = state.currentIndex
     // 查找当前列表中是否有待插入的歌曲并返回其索引
