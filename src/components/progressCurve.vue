@@ -1,5 +1,6 @@
 <template>
   <div class="progress-curve" ref="progressCurve" @click="progressClick">
+    <!-- SVG的版本 SVG命名空间 -->
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" >
       <path :d="path" stroke="rgba(255, 255, 255, 0.4)" fill="none"></path>
       <path
