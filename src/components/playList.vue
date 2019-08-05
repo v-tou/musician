@@ -193,18 +193,6 @@ export default {
         .slide-leave-to {
           height: 0;
         }
-        // &.slide-move {
-        //   transition: all 1s;
-        // }
-        // // &.slide-enter {
-        // //   transform: translate3d(-100%, 0, 0);
-        // //   opacity: 0;
-        // // }
-        // &.slide-leave-active {
-        //   // position: absolute;
-        //   transform: translate3d(-100%, 0, 0);
-        //   opacity: 0;
-        // }
       }
     }
 
@@ -217,24 +205,4 @@ export default {
     }
   }
 }
-// .listen-list {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   color: #fff;
-//   // max-height: px2rem(885px);
-//   background: rgba(0, 0, 0, 0.8);
-//   z-index: 199;
-
-// }
-
-// .fold-enter-active,
-// .fold-leave-active {
-//   transition: all 0.2s;
-// }
-// .fold-enter,
-// .fold-leave-active {
-//   transform: translate3d(0, 100%, 0);
-// }
 </style>

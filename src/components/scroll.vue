@@ -6,7 +6,6 @@
 
 <script>
 import BScroll from 'better-scroll'
-// import Loading from './loading.vue'
 
 const DIRECTION_H = 'horizontal'
 const DIRECTION_V = 'vertical'
@@ -14,7 +13,6 @@ const DIRECTION_V = 'vertical'
 export default {
   name: 'scroll',
   components: {
-    // Loading,
   },
   //props验证数据类型 类型错误会发出警告
   props: {

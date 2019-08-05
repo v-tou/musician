@@ -58,8 +58,6 @@ export default {
       this.y = [(clientWidth-(clientWidth/10))*0.7, -5]
     },
     progressClick(e) {
-      // const rect = this.$refs.progressCurve.getBoundingClientRect()
-      // const offsetWidth = e.pageX - rect.left
       this.$toast('开发中，敬请期待...')
     }
   }

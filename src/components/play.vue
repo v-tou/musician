@@ -1,8 +1,6 @@
 <template>
-<!-- 播放的大头 -->
-  <!-- 当歌曲列表不为空时显示player播放器界面 -->
   <div class="player" v-show="playList.length>0">
-    <!-- 正常大小的播放器界面 transition里写需要被动画控制的元素-->
+    <!-- 正常大小的播放器界面-->
     <transition
       name="normal"
       @enter="enter"
@@ -31,7 +29,7 @@
           @touchmove="middleTouchMove"
           @touchend="middleTouchEnd"
         >
-          <!-- 图片界面 包括图片专辑和滚动的小歌词 ref用于获取dom元素-->
+          <!-- 图片界面 包括图片专辑和滚动的小歌词-->
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" ref="imageWrapper">
@@ -77,12 +75,6 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
-              <!-- <v-progress-bar
-                ref="progressBar"
-                :percent="percent"
-                @percentChange="onProgressBarChange"
-                @percentChanging="onProgressBarChanging"
-              ></v-progress-bar> -->
               <!-- 引入v-progress-curve组件 -->
               <v-progress-curve :percent="percent" />
             </div>
@@ -112,7 +104,6 @@
               <!-- 播放列表 -->
               <div class="icon-box i-right" @click="showPlaylist">
                 <i class="icon" style="font-size: 28px">&#xe927;</i>
-                <!-- <i @click="toggleFavorite(currentSong)" class="icon" :class="favoriteIcon"></i> -->
               </div>
             </div>
           </div>
@@ -142,8 +133,6 @@
         <div class="control" @click.stop="togglePlaying">
           <i class="icon icon-mini" v-if="playing">&#xe60a;</i>
           <i class="icon icon-mini" v-else>&#xe606;</i>
-          <!-- <v-progress-circle :radius="radius" :percent="percent">
-          </v-progress-circle>-->
         </div>
         <div class="control" @click.stop="next">
           <i class="icon" style="font-size: 24px">&#xe718;</i>
@@ -176,10 +165,7 @@
 import Lyric from 'lyric-parser'
 import animations from 'create-keyframe-animation'
 import scroll from '@/components/scroll'
-import progressBar from '@/components/progressBar'
-import progressCircle from '@/components/progressCircle'
 import progressCurve from '@/components/progressCurve'
-// import { playMode } from 'common/js/config'
 import { playerMixin } from '@/common/js/mixin'
 import { prefixStyle } from '@/common/js/dom'   /* 为了浏览器兼容，自动加前缀 */
 import api from '@/api'
@@ -196,9 +182,7 @@ export default {
   name: 'play',
   mixins: [playerMixin],
   components: {
-    'v-progress-bar': progressBar,
     'v-scroll': scroll,
-    'v-progress-circle': progressCircle,
     'v-progress-curve': progressCurve,
     'v-playlist': playList
   },
@@ -207,7 +191,6 @@ export default {
       songReady: false,
       currentTime: 0,
       duration: 0,
-      //radius: 32,
       currentLyric: null,
       currentLineNum: 0,
       currentShow: 'cd',
@@ -308,11 +291,6 @@ export default {
     //歌曲播放结束时触发
     end() {
       this.currentTime = 0
-      // if (this.mode === playMode.loop) {
-      //   this.loop()
-      // } else {
-      //   this.next()
-      // }
       this.next()
     },
     /* 循环播放时 */
@@ -406,23 +384,6 @@ export default {
       const second = this._pad(interval % 60)
       return `${minute}:${second}`
     },
-
-    /* onProgressBarChanging(percent) {
-      this.currentTime = this.duration * percent
-      if (this.currentLyric) {
-        this.currentLyric.seek(this.currentTime * 1000)
-      }
-    },
-    onProgressBarChange(percent) {
-      const currentTime = this.duration * percent
-      this.currentTime = this.$refs.audio.currentTime = currentTime
-      if (this.currentLyric) {
-        this.currentLyric.seek(currentTime * 1000)
-      }
-      if (!this.playing) {
-        this.togglePlaying()
-      }
-    }, */
     /* 获取解析后的歌词 */
     getLyric(id) {
       api.MusicLyric(id).then(res => {
@@ -645,7 +606,6 @@ export default {
       if (newVal) {
         setTimeout(() => {
           this.$refs.lyricList.refresh()
-          // this.$refs.progressBar.setProgressOffset(this.percent)
         }, 20)
       }
     }
@@ -838,7 +798,6 @@ export default {
           }
         }
         .progress-bar-wrapper {
-          // width: ;
           position: absolute;
           left: 0;
           right: 0;

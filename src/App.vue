@@ -2,7 +2,7 @@
   <div id="app">
     <v-header @left="showSidebar">
       <i slot="left-icon" class="icon">&#xe692;</i>
-      <span slot="content">Magic Music</span>
+      <span slot="content">Musician</span>
       <router-link slot="right-icon" to="/user">
         <i class="icon">&#xe63c;</i>
       </router-link>
